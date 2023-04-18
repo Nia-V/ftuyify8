@@ -6,6 +6,7 @@
 unsigned long res;
 unsigned long fres;
 enum IsPressed {ON, REPT, EQ, PLAY, VOLMIN, VOLPLUS, UP , REV, FWD, DWN };
+IsPressed button;
 int delta;
 int modul=0;
 int a;
@@ -13,7 +14,7 @@ int x;
 int y;
 int z;
 
-String RemRun(){
+IsPressed RemRun(){
  if (IrReceiver.decode()) {
     res = IrReceiver.decodedIRData.decodedRawData; // Print "old" raw data
       IrReceiver.resume(); // Enable receiving of the next value
@@ -26,15 +27,15 @@ Serial.println(fres);
 switch (fres) {       // if results.value is equal to....
       case 3125149440:               // the On/off button then...
         Serial.println("ON/OFF");  // serial print on/ off
-     IsPressed button = "ON";
+      button = ON;
         break;
       case 4061003520:             // the rept button
         Serial.println("REPT");  // serial print rept   
-        IsPressed button = "REPT";// set toggle equal to 1
+         button = REPT;// set toggle equal to 1
         break;
       case 3860463360:           // the EQ button
         Serial.println("EQ");  // serial print EQ
-       IsPressed button = "EQ";
+        button = EQ;
         break;
       case 3910598400:
         Serial.println("0");
@@ -88,43 +89,43 @@ switch (fres) {       // if results.value is equal to....
         break;
          case 3208707840:
         Serial.println("play");
-       IsPressed button = "PLAY";
+        button = PLAY;
   fres=0;
   res=0;
           modul++;
         break;   // if results.value is equal to....
       case 3108437760:             //the VOL + button then...
         Serial.println("VOL+");  // Serial print Vol +
-       IsPressed button = "VOLPLUS";
+        button = VOLPLUS;
          // bool r is equal to 0
         break;
 
       case 3141861120:            //the |<< button then...
         Serial.println("|<<");  // Serial print |<< 
-       IsPressed button = "REV";                 // bool r is equal to 0
+        button = REV;                 // bool r is equal to 0
         break;
 
       case 3158572800:            //the >>| button then...
         Serial.println(">>|");  // Serial print >>|
-       IsPressed button = "FWD";                  // bool r is equal to 1
+        button = FWD;                  // bool r is equal to 1
         break;
 
       case 3927310080:             //the VOL + button then...
         Serial.println("VOL-");  // Serial print Vol -
-          IsPressed  button = "VOLMIN";           // bool r is equal to 0
+            button = VOLMIN;           // bool r is equal to 0
         break;
 
       case 4127850240:
         Serial.println("^^");
-       IsPressed button = "UP";
+        button = UP;
 
         break;  
     case 4161273600:
         Serial.println("vv");
-       IsPressed button = "DWN";
+        button = DWN;
        
         break; 
-}  return IsPressed button;
+}  return  button;
 }
 
 if (modul != 0) {
